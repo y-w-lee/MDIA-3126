@@ -10,42 +10,44 @@ export default function Page() {
     // display an empty and fulfilled state (if statement)
     // create a state to contain my data [products, setProducts]
 
-    const [products, setProducts] = useState(null);
-    const API_URL = "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json";
+    const [media, setMedia] = useState(null);
+    const API_URL = "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=2";
     
-    async function fetchProducts() {
+    async function fetchMedia() {
         const response = await fetch(API_URL);
             // console.log(response);
         const data = await response.json(); // store responses in data variable
             // console.log(data);
-        setProducts(data); //using data to set our state
+        setMedia(data); //using data to set our state
     }
 
 
-    const ProductOutput = () => {
-        if (products) {
+    const MediaOutput = () => {
+        if (media) {
 
-            let productsList = [];
+            let mediaList = [];
 
-            products.forEach((product, index) => {
-                productsList.push(
-                    <li key={index}>
-                        {product.name}
+            media.forEach((mediaItem, index) => {
+                mediaList.push(
+                    <li className="mb-2 text-center" key={index}>
+                        <h2>{mediaItem.title}</h2>
+                        <img src={mediaItem.url} alt={mediaItem.explanation}/>
+                        <p>{mediaItem.explanation}</p>
                     </li>
                 );
             });
 
             return (
             <div className="p-4 mb-4 border-4 border-black text-center">
-                {/* OUR PRODUCTS WILL BE HERE */}
-                <ul>{productsList}</ul>
+                {/* OUR MEDIA WILL BE HERE */}
+                <ul>{mediaList}</ul>
             </div>
             )
         }
 
         return (
             <div className="p-4 mb-4 border-4 border-black text-center">
-                🌭🌭🌭🌭🌭🌭NO 🌭🌭🌭🌭PRODUCTS🌭🌭🌭🌭YET
+                🌭🌭🌭🌭🌭🌭NO 🌭🌭🌭🌭MEDIA🌭🌭🌭🌭YET
             </div>
         )
     }
@@ -56,13 +58,13 @@ export default function Page() {
                 <h1 className="text-4xl mb-4">Welcome to my product page!</h1>
                     <button
                         className="text-yellow-300 bg-black p-4"
-                            onClick={fetchProducts}
+                            onClick={fetchMedia}
                     >
-                        🌭 Fetch products 
+                        🌭 Fetch Media 
                     </button>
             </header>
 
-            <ProductOutput />
+            <MediaOutput />
         </div>
     );
 }
